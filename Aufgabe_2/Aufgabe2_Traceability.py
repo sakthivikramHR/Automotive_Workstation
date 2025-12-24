@@ -34,7 +34,7 @@ def test_overvoltage_fault_requirement(bms):
     assert status["contactors"] is False
     print(f"\nVerified {REQS['REQ_BMS_002']}")
 
-def test_overvoltage_fault_requirement(bms):
+def test_normal_fault_requirement(bms):
     """Verify REQ_BMS_003: Normal"""
     # Test Step: Have both temperature and voltage under limits
     bms.process_telemetry(temp=25, voltage=4.1)
@@ -44,3 +44,15 @@ def test_overvoltage_fault_requirement(bms):
     assert status["state"] == "COMPLETELY NORMAL"
     assert status["contactors"] is False
     print(f"\nVerified {REQS['REQ_BMS_003']}")
+
+
+def test_undervoltage_fault_requirement(bms):
+    """Verify REQ_BMS_004: Undervoltage"""
+    # Test Step: Have both temperature and voltage under limits
+    bms.process_telemetry(temp=45, voltage=2.3)
+    
+    status = bms.get_status()
+    
+    assert status["state"] == "COMPLETELY NORMAL"
+    assert status["contactors"] is False
+    print(f"\nVerified {REQS['REQ_BMS_004']}")

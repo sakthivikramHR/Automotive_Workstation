@@ -17,8 +17,15 @@ class BatteryManagementSystem:
             self.contactors_closed = False
             return
         
+        # i.O. Logic for Temperature
         if temp < 60:
             self.state = "COMPLETELY NORMAL"
+            self.contactors_closed = False
+            return
+        
+        # Safety Logic for Voltage 
+        if voltage < 2.5:
+            self.state == "UNDERVOLTAGE"
             self.contactors_closed = False
             return
 
