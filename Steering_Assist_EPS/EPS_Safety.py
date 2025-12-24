@@ -1,5 +1,5 @@
 import pytest
-from Aufgabe1_Steering_System import calculate_steering_assist
+from Steering_System import calculate_steering_assist
 
 # Test Data: (Speed, Torque, Expected_Assist)
 test_cases = [

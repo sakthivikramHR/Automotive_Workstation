@@ -22,4 +22,12 @@ Finally, Run the file "Automated_Reporting"
 ## Features of the Project
 
 1. The Project has been equipped with an automated reporting of the result using junitxml.
-2. The project allows you to write as many tests as possible.
+2. The project allows you to write as many tests as possible by adding conditions.
+
+
+## Information about the project
+
+1. The variables temperature and voltage allows you to know the condition of the Battery.
+2. contactors_closed = True: The battery is "connected" Power is flowing. This is the Normal State.
+   contactors_closed = False: The battery is "disconnected" The circuit is broken. This is the Safe State.
+3. The State variable of the battery tells us whether the Battery is not in any fault.
