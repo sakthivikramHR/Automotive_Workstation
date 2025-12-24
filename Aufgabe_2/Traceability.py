@@ -56,3 +56,15 @@ def test_low_temperature_fault_requirement(bms):
     assert status["state"] == "LOW_TEMPERATURE_FAULT"
     assert status["contactors"] is False
     print(f"\nVerified {REQS['REQ_BMS_004']}")
+
+def test_normal_requirement(bms):
+    """Verify REQ_BMS_005: Normal Behaviour of BMS."""
+    # Test Step: Temperature to stay between 20 and 60 degree Celsius
+    # Test Step: Voltage to stay between 2.5 and 4.2 Volts
+    bms.process_telemetry(temp=35, voltage=3.3)
+    
+    status = bms.get_status()
+    
+    assert status["state"] == "NORMAL"
+    assert status["contactors"] is True
+    print(f"\nVerified {REQS['REQ_BMS_005']}")
