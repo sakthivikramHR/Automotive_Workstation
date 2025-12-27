@@ -2,50 +2,64 @@ class BatteryManagementSystem:
     def __init__(self):
         self.state = "NORMAL"
         self.contactors_closed = True
+        self.last_temperature = None
+        self.freeze_counter = 0
+        self.freeze_threshold = 5
 
-    def process_telemetry(self, temp, voltage):
+    def process_telemetry(self, temperature, voltage):
         """Processes sensor data and updates system state."""
 
+        if temperature == self.last_temperature:
+            self.freeze_counter += 1
+        else:
+            self.freeze_counter = 0
+            
+        self.last_temperature = temperature
+        if self.freeze_counter >= self.freeze_threshold:
+            self.state = "SENSOR_FROZEN_FAULT"
+            self.contactors_closed = False
+            return
+
         # Logic for Communication Problems --> (ALIV/CRC/CHL Failures) 
-        if temp is None or voltage is None: 
-            self.state = "SENSOR_ERROR"
+        if temperature is None or voltage is None: 
+            self.state = "SENSOR_COMMUNICATION_ERROR"
             self.contactors_closed = False
             return
         
         # Safety Logic for Temperature
-        if temp > 60 and temp < 120:
+        if temperature > 60 and temperature < 150:
             self.state = "SHUTDOWN"
             self.contactors_closed = False
             return
         
         # Safety Logic for Temperature
-        if temp > 120:
-            self.state = "EXTREME_VALUE_FORCED_SHUTDOWN"
+        if temperature >= 150:
+            self.state = "FORCED_SHUTDOWN"
             self.contactors_closed = False
             return
         
         # Safety Logic for Temperature
-        if temp < 20:
+        if temperature < 20:
             self.state = "LOW_TEMPERATURE_FAULT"
             self.contactors_closed = False
             return
             
-        # Safety Logic for Voltage
+        # Safety Logic for Voltage --> Overvoltage State
         if voltage > 4.2:
             self.state = "OVERVOLTAGE_FAULT"
             self.contactors_closed = False
             return
         
-        # Safety Logic for Voltage 
+        # Safety Logic for Voltage --> Undervoltage State
         if voltage < 2.5:
             self.state = "UNDERVOLTAGE_FAULT"
             self.contactors_closed = False
             return
 
-        if 20 < temp < 60 and 2.5 < voltage < 4.2:
-            self.state = "NORMAL"
-            self.contactors_closed = True
-            return
+        # Default logic for i.O. State
+        self.state = "NORMAL"
+        self.contactors_closed = True
+        return
 
     def get_status(self):
         return {"state": self.state, "contactors": self.contactors_closed}
