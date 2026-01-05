@@ -9,6 +9,7 @@ class BatteryManagementSystem:
     def process_telemetry(self, temperature, voltage):
         """Processes sensor data and updates system state."""
 
+        # Logic for Sensor Freezing Problems
         if temperature == self.last_temperature:
             self.freeze_counter += 1
         else:
