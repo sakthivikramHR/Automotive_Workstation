@@ -17,7 +17,7 @@ def test_forced_shutdown(bms):
     print(f"--> ECU entered {bms.state} state on extreme temperature jump")
 
 def test_sensor_timeout(bms):
-    # 'None' can simulate a lost signal or sensor timeout which means a Communication Failure (CRC/ALIV/TIMEOUT)
+    # 'None' can simulate a lost signal or sensor timeout which means a Communication Failure (CRC/ALIV/TIMEOUT/CHL)
     try:
         bms.process_telemetry(None, None)
         assert bms.state == "SENSOR_COMMUNICATION_ERROR"

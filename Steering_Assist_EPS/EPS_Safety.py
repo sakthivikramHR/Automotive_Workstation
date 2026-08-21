@@ -8,7 +8,7 @@ test_cases = [
     (250, 5, 10.0),   # Boundary: Speed just below limit
     (255, 25, 0.0),   # Boundary: Speed over limit, Torque over limit
     (251, 5, 0.0),    # SAFETY TRIGGER: Just above limit
-    (300, 2, 0.0),     # Extreme overspeed
+    (300, 2, 0.0),     # Extreme overspeed identification
     (275, 25, 0.0)    # Boundary: Speed over limit, Torque over limit
 ]
 
