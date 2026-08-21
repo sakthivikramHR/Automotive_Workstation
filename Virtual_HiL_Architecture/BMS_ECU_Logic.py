@@ -5,25 +5,25 @@ class BatteryManagementSystem:
 
     def process_telemetry(self, temp, voltage):
         """Processes sensor data and updates system state."""
-        # Safety Logic for Temperature
+        # Safety Logic for Battery Temperature
         if temp > 60:
             self.state = "SHUTDOWN"
             self.contactors_closed = False
             return
         
-        # Safety Logic for Temperature
+        # Safety Logic for Battery Temperature
         if temp < 20:
             self.state = "LOW_TEMPERATURE_FAULT"
             self.contactors_closed = False
             return
             
-        # Safety Logic for Voltage
+        # Safety Logic for Battery Voltage
         if voltage > 4.2:
             self.state = "OVERVOLTAGE_FAULT"
             self.contactors_closed = False
             return
         
-        # Safety Logic for Voltage 
+        # Safety Logic for Battery Voltage 
         if voltage < 2.5:
             self.state = "UNDERVOLTAGE_FAULT"
             self.contactors_closed = False
